@@ -51,8 +51,9 @@ var db_src;
 app.post('/output', (req, res)=>{
     console.log(req.body.serial_number);
     // res.redirect("http://localhost:5000/api/alyac/" + req.body.serial_number)
-    db_src = "http://localhost:5000/api/alyac/" + req.body.serial_number;
-    open(db_src)
+    // db_src = "http://localhost:5000/api/alyac/" + req.body.serial_number;
+    // open(db_src)
+    res.redirect("https://alyacdetection.tk/output")
     fs.readFile("./alyac.json", 'utf8', (error, data)=>{
         if(error) return console.log(error)
         console.log("json file is successfully read")
