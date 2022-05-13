@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/> 
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <title>알약 유효기간 등록 페이지</title>		
+		<script>
+			let date, year, month, day;
+			let selected;
+			$(function(){
+				$("#datepicker").datepicker({
+					changeMonth: true,
+					changeYear: true,
+					minDate: '-50y',
+					nextText: '다음 달',
+					prevText: '이전 달',
+					yearRange: 'c-50:c+20',
+					showButtonPanel: true,
+					currentText: '오늘 날짜',
+					closeText: '닫기',
+					dateFormat: 'yy-mm-dd',
+					showMonthAfterYear: true,
+					dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+					monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+				});
+			$("#datepicker").on("change", function(){
+				selected = $(this).val();
+				date = selected.toString();
+				year = parseInt(date.substr(0, 4));
+				month = parseInt(date.substr(5, 2));
+				day = parseInt(date.substr(8));
+				time(year, month, day);
+				let expDate = year + "년 " + month + "월 " + day +"일";
+				document.getElementById("datepicker_add_month").innerHTML = expDate;
+				});
+			});
+			function time(y, m, d){
+				if(month > 9){
+					month = (m + 3) % 12;
+					year = y+1;
+					day = d - 3;
+				}else{
+					month = m + 3;
+					year = y;
+					day = d - 3;
+				}
+			}
+		</script>   	
+    </head>
+
+    <body>
+        <p>
+            <label> 처방 받은 날짜 입력 </label>
+            <input type="text" id="datepicker" placeholder="날짜넣기" autocomplete="off"/>
+        </p>
+		<div>
+			유효 기간은 <span id="datepicker_add_month">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>까지입니다!
+		</div>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>왼쪽</title>
+    </head>
+	<style>
+		body{
+			background-color: #ff0000;
+		}
+		.wrapper{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+		}
+		.content{
+			font-family: system-ui, serif;
+			font-size: 4em;
+		}
+	</style>
+    <body onclick="move()">
+		<div class="wrapper">
+			<div class="content">검색하기</div>
+		</div>
+    </body>
+	<script>
+		function move(){
+			window.open("search.html");
+		}
+	</script>
+</html>

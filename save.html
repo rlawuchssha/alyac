@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="style.css"/>
+        <title>등록하기</title>
+    </head>
+
+    <body>
+		<div class="upload">
+			<div class="font" style="text-align: center">
+				알약 사진을 업로드해주세요
+			</div>
+			<script	class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+			<div class="file-upload">
+				<button class="file-upload-btn"	type="button" onclick="$('.file-upload-input').trigger( 'click' )">
+					사진을 추가하세요
+				</button>
+
+				<div class="image-upload-wrap">
+					<input	class="file-upload-input" type="file" onchange="readURL(this);"	accept="image/*"/>
+					<div class="drag-text">
+						<h3>파일을 끌어다 놓거나 이미지를 선택해주세요</h3>
+					</div>
+				</div>
+				<div class="file-upload-content">
+					<img class="file-upload-image" src="#" alt="your image" />
+					<div class="image-title-wrap">
+						<button type="button" onclick="removeUpload()" class="remove-image">
+							<span class="image-title">업로드 된 이미지 제거하기</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<script>
+				function readURL(input) {
+					if (input.files && input.files[0]) {
+						var reader = new FileReader();
+
+						reader.onload = function (e) {
+							$('.image-upload-wrap').hide();
+
+							$('.file-upload-image').attr('src', e.target.result);
+							$('.file-upload-content').show();
+
+							$('.image-title').html(input.files[0].name);
+						};
+
+						reader.readAsDataURL(input.files[0]);
+					} else {
+						removeUpload();
+					}
+				}
+
+				function removeUpload() {
+					$('.file-upload-input').replaceWith($('.file-upload-input').clone());
+					$('.file-upload-content').hide();
+					$('.image-upload-wrap').show();
+				}
+				$('.image-upload-wrap').bind('dragover', function () {
+					$('.image-upload-wrap').addClass('image-dropping');
+				});
+				$('.image-upload-wrap').bind('dragleave', function () {
+					$('.image-upload-wrap').removeClass('image-dropping');
+				});
+        	</script>
+		</div>
+		<button class="font">
+			다른 이름으로 저장하기
+		</button>
+		<button class="font" onclick="move()">
+			처방받은 날짜 등록하기
+		</button><br><br>
+		<div>
+			<button class="zoomOut">글씨 작게</button>
+			<button class="origin">초기화</button>
+			<button class="zoomIn">글씨 크게</button>
+		</div>
+		<script>
+			function move(){
+				window.open("date.html");
+			}
+			$(function(){
+            let basicFont = 15; // 기본 폰트 크기를 15px로 지정
+            
+            $(".zoomIn").click(function(){ // zoomIn을 누르면, 함수 발생
+                basicFont += 3; // basicFont는 2씩 계속 증가하고,
+                
+                // 46 넘어가면 46에서 동작 멈춤
+                if( basicFont > 46 ) {basicFont = 45; return false;}
+                
+                	// 기존에 크기가 몇인지 알려주던 p 태그의 텍스트도 현재 폰트 크기랑 같이 변경
+                    $(".font").css("font-size", basicFont);
+            });
+            
+            $(".zoomOut").click(function(){ // zoomOut을 누르면, 함수 발생
+                basicFont -= 2; // basicFont가 2씩 계속 감소
+                
+                // 10 이하로 내려가면 10에서 동작 멈춤
+                if( basicFont < 10 ) {basicFont = 10; return false;}
+                    $(".font").css("font-size", basicFont);
+            });
+            
+            $(".origin").click(function(){
+                $(".font").css("font-size", "15px");
+				basicFont = 15;
+            });
+        });
+		</script>
+    </body>
+	<!-- Copyright (c) 2022 by Aaron Vanston (https://codepen.io/aaronvanston/pen/yNYOXR)
+
+		Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+		The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	-->
+</html>
