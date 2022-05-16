@@ -21,7 +21,9 @@
                 type="button"
                 onclick="$('.file-upload-input').trigger( 'click' )"
             >
-            사진을 추가하세요
+            <div class="font">
+                사진을 추가하세요
+            </div>
             </button>
             <form action="/upload" method='post' enctype="multipart/form-data">
                 <div class="image-upload-wrap">
@@ -34,7 +36,9 @@
                         accept="image/*"
                     />
                     <div class="drag-text">
-                        <h3>파일을 끌어다 놓거나 이미지를 선택해주세요</h3>
+                        <div class="font">
+                            <h3>파일을 끌어다 놓거나 이미지를 선택해주세요</h3>
+                        </div>
                     </div>
                 </div>
                 <div class="file-upload-content"> 
@@ -45,12 +49,15 @@
                         </button>
                         </div>
                 </div>
-                <input type='submit' name='sub' value='업로드'/>
+                <input class="font" type='submit' name='sub' value='업로드'/>
             </form>
-            <form action="/output" method="post">
-                알약의 일련번호를 입력하세요 <input type="text" name="serial_number"> 
-                <input type="submit" value="출력">
-            </form>
+            <div class="font">
+                <form action="/output" method="post">
+                    알약의 일련번호를 입력하세요 <input type="text" name="serial_number"> 
+                    <input class="font" type="submit" value="출력">
+                </form>
+            </div>
+            
         </div>
         
 
@@ -87,12 +94,12 @@
             });
         </script>
 
-		<div class="font">
-			결과 표시
-		</div>
-		<button class="zoomOut">글씨 작게</button>
-		<button class="origin">초기화</button>
-		<button class="zoomIn">글씨 크게</button>
+        <div style="text-align: center;">
+            <button class="zoomOut"><span class="font">글씨 작게</span></button>
+            <button class="origin"><span class="font">초기화</span></button>
+            <button class="zoomIn"><span class="font">글씨 크게</span></button>
+        </div>
+
 		<script>
         $(function(){
             let basicFont = 15; // 기본 폰트 크기를 15px로 지정
