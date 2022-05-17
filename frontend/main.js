@@ -139,6 +139,7 @@ app.post('/output', (req, res)=>{
         '<body>' + '<div id="info">여기에 입력</div>' +       
             // '<img src= ' + data[5][4] + ' width= 20% height=50%>' +
         '</body>' +
+        '<script> function alyac_info(data){document.getElementById("info").innerText = data} </script>' +
         '</html>'
         )
         for(let i = 0 ; i < data[5].length; i++){
@@ -147,7 +148,8 @@ app.post('/output', (req, res)=>{
                         " 효능: " + data[2][i]
         
             res.write('<img src = ' + data[5][i] + ' width=20% height=50% '
-                        +`onclick='javascript:function(){document.getElementById("info").innerText=\"${text}\";};'` + '>'
+                        // +`onclick='function(){document.getElementById("info").innerText=\"${text}\";};'` + '>'
+                        +`onclick='alyac_info("${text}")'` + '>'
                     
             )
         }
