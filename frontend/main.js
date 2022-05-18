@@ -46,6 +46,7 @@ app.post('/upload', upload.any(), (req, res) => {
 })
  
 let sample_list = [200300406, 200808877, 200808948, 200809076, 200809276]
+let sample_list2 = [198801525, 198700405, 199102142]
 var db_src;
 let info_image = undefined
 let info = undefined
@@ -60,10 +61,16 @@ let item_name = new Array();
 let classified_name = new Array();
 let company_name = new Array();
 let classfication = new Array();
+let pre_condition = new Array();
+let caution_eat = new Array();
+let caution_reaction = new Array();
+let keep = new Array();
 
+let text0
 let row = 0
 let col = 0
 let text = undefined
+let text2 = undefined
 
 function delay(){
     return new Promise((resolve, reject)=>{
@@ -71,9 +78,7 @@ function delay(){
     })
 }
 async function getData(numbers){
-    detail_info = false
-    console.log("크기" + typeof(numbers[0]))
-    fs.readFile("./alyac_image.json", 'utf8', (error, data)=>{
+    fs.readFile("./alyac_image.json", 'utf8', (error, data)=>{ // 이미지 관련
         if(error) return console.log(error)
         console.log("image file is successfully read")
         info_image = JSON.parse(data)
@@ -87,6 +92,13 @@ async function getData(numbers){
                     classfication.push(info_image[j]['전문일반구분'])
                 }
             }
+            if(image[i] === undefined){
+                image.push("데이터가 없습니다")
+                item_name.push("데이터가 없습니다")
+                classified_name.push("데이터가 없습니다")
+                company_name.push("데이터가 없습니다")
+                classfication.push("데이터가 없습니다")
+            }
         }
 
 
@@ -95,64 +107,99 @@ async function getData(numbers){
         if(error) return console.log(error)
         console.log("info file is successfully read")
         info = JSON.parse(data)
-        for(var i = 0; i < numbers.length; i++){
+        for(var i = 0; i < numbers.length; i++){ // 알약 정보 관련
             for(var j = 0 ; j < info.length; j++){
                 if(info[j].num === numbers[i].toString()){
+                    detail_info.push("true")
                     name.push(info[j].name)
                     company.push(info[j].company)
                     effect.push(info[j].effect)
                     use.push(info[j].use)
                     caution.push(info[j].caution)
-                    detail_info = true;
+                    pre_condition.push(info[j].pre_condition)
+                    caution_eat.push(info[j].caution_eat)
+                    caution_reaction.push(info[j].caution_reaction)
+                    keep.push(info[j].keep)
                 }
             }
             if(name[i] === undefined){
+                detail_info.push("false")
                 name.push("데이터가 없습니다")
                 company.push("데이터가 없습니다")
                 effect.push("데이터가 없습니다")
                 use.push("데이터가 없습니다")
                 caution.push("데이터가 없습니다")
+                pre_condition.push("데이터가 없습니다")
+                caution_eat.push("데이터가 없습니다")
+                caution_reaction.push("데이터가 없습니다")
+                keep.push("데이터가 없습니다")
             }
         }
-        // console.log("전달받은 일련번호" + typeof(numbers))
-        // if(detail_info === false){
-        //     name = "데이터베이스에 해당 알약이 없습니다."
-        //     company = "데이터베이스에 해당 알약이 없습니다."
-        //     effect = "데이터베이스에 해당 알약이 없습니다."
-        //     use = "데이터베이스에 해당 알약이 없습니다."
-        //     caution = "데이터베이스에 해당 알약이 없습니다."
-        // }
     })
     await delay()
-    //  console.log("이미지파일 크기" + info_image.length)
-    //  console.log("정보 파일 크기" + info.length)
+
     return new Promise(function(resolve, reject){
-        resolve([name, company, effect, use, caution, image, item_name, classified_name, company_name, classfication])
+        resolve([detail_info, name, company, effect, use, pre_condition, caution, caution_eat, caution_reaction, keep, image, item_name, classified_name, company_name, classfication])
     })
 }
 app.post('/output', (req, res)=>{
     getData(sample_list).then(function(data){
-        // console.log(data)
+        console.log(data[10])
     
         res.write('<!DOCTYPE html>' +
-        '<html><head><meta charset="utf-8"><title>알약 정보</title></head>' +
-        '<body>' + '<div id="info">여기에 입력</div>' +       
-            // '<img src= ' + data[5][4] + ' width= 20% height=50%>' +
-        '</body>' +
-        '<script> function alyac_info(data){document.getElementById("info").innerText = data} </script>' +
-        '</html>'
+        '<html><head><meta charset="utf-8"><title>알약 정보</title></head><body>' + 
+        '<script> function alyac_info(data){ document.getElementById("info").innerText = data;}</script></body></html>'
         )
+
         for(let i = 0 ; i < data[5].length; i++){
-            text =  "제품명: " + data[0][i] +
-                        " 제조회사: " + data[1][i] + 
-                        " 효능: " + data[2][i]
+            if(data[0][i] === "true"){
+                text =  
+                "제품명: " + data[1][i] + "\\n" +
+                "제조회사: "  + data[2][i] + "\\n" +
+                "효능: " + data[3][i] + "\\n" +
+                "섭취량 및 섭취방법: " + data[4][i] + "\\n" +
+                "복용 전 주의사항: " + data[5][i] + "\\n" +
+                "주의사항: " + data[6][i] + "\\n" +
+                "섭취시 주의사항: " + data[7][i] + "\\n" +
+                "부작용: " + data[8][i] + "\\n" +
+                "보관방법: " + data[9][i]  
+            }else{
+                text =  "제품명: " + data[11][i] + "\\n" +
+                "제조회사: " + data[13][i] + "\\n" +
+                "분류명: " + data[12][i] + "\\n" +
+                "전문일반구분: " + data[14][i]
+            }
+            if(data[10][i] === "데이터가 없습니다") continue; //이미지는 없고 알약 번호만 있으면 출력 x
+            res.write('<img src = ' + data[10][i] + ' width=20% height=50% '+`onclick='alyac_info("${text}")'` + '>')
+            // text0 = "image_num" + i // 아이디를 만들기 위함
+            // res.write(`<script>document.getElementById("` + `image_num` + i +`").addEventListener("click", alyac_info);</script>`)
+        } res.write('<div id="info"></div>')
         
-            res.write('<img src = ' + data[5][i] + ' width=20% height=50% '
-                        // +`onclick='function(){document.getElementById("info").innerText=\"${text}\";};'` + '>'
-                        +`onclick='alyac_info("${text}")'` + '>'
-                    
-            )
-        }
+
+    })
+    getData(sample_list2).then(function(data2){
+        // console.log(data2[1])
+
+        for(let i = 0 ; i < data2[5].length; i++){
+            if(data2[0][i] === "true"){
+                text2 =  
+                "제품명: " + data2[1][i] + "\\n" +
+                "제조회사: "  + data2[2][i] + "\\n" +
+                "효능: " + data2[3][i] + "\\n" +
+                "섭취량 및 섭취방법: " + data2[4][i] + "\\n" +
+                "복용 전 주의사항: " + data2[5][i] + "\\n" +
+                "주의사항: " + data2[6][i] + "\\n" +
+                "섭취시 주의사항: " + data2[7][i] + "\\n" +
+                "부작용: " + data2[8][i] + "\\n" +
+                "보관방법: " + data2[9][i]  
+            }else{
+                text2 =  "제품명: " + data2[11][i] + "\\n" +
+                "제조회사: " + data2[13][i] + "\\n" +
+                "분류명: " + data2[12][i] + "\\n" +
+                "전문일반구분: " + data2[14][i]
+            }
+            if(data2[10][i] === "데이터가 없습니다") continue; //이미지는 없고 알약 번호만 있으면 출력 x
+        } //res.write('<div id="info2"></div>')
     })
 })
 
