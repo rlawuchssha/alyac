@@ -1,6 +1,6 @@
 a = []
-
-a.push(9)
-
+a.push([])
+a.push([])
+a.push([])
 console.log(a)
 
