@@ -16,7 +16,8 @@ var _storage = multer.diskStorage({
         cb(null, './upload')
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        cb(null, "이미지.jpg")
+        // cb(null, file.originalname)
     }
 })
 var upload = multer({storage : _storage})
@@ -78,52 +79,89 @@ function delay(){
         setTimeout(()=> resolve(), 1000)
     })
 }
+
+// var async = require('async')
+// async.waterfall([function checkDir(callback){
+    
+// }],)
+
+var file = []
+
+
+
 async function getData(numbers){
-    for(let i = 0 ; i < numbers.length; i++){
-        name.push([])
-        company.push([]) 
-        effect.push([]) 
-        use.push([])
-        caution.push([])
-        image.push([])
-        detail_info.push([])
-        item_name.push([])
-        classified_name.push([])
-        company_name.push([])
-        classfication.push([])
-        pre_condition.push([])
-        caution_eat.push([])
-        caution_reaction.push([])
-        keep.push([])
+
+    if(numbers[0][0] === undefined){
+
     }
+    else{
+        for(let i = 0 ; i < numbers.length; i++){
+            name.push([])
+            company.push([]) 
+            effect.push([]) 
+            use.push([])
+            caution.push([])
+            image.push([])
+            detail_info.push([])
+            item_name.push([])
+            classified_name.push([])
+            company_name.push([])
+            classfication.push([])
+            pre_condition.push([])
+            caution_eat.push([])
+            caution_reaction.push([])
+            keep.push([])
+        }
+    }
+    
 
     fs.readFile("./alyac_image.json", 'utf8', (error, data)=>{ // 이미지 관련
         if(error) return console.log(error)
         console.log("image file is successfully read")
         info_image = JSON.parse(data)
-
-// 배열 구조 생각해보고 k , i 등 모든 지역변수 다시 설정해야됨 
-
-       for(var k = 0; k < numbers.length; k++){ // 알약이 몇개 찍혔는지
-            for(var i = 0 ; i < numbers[k].length; i++){ // 각 알약의 예상 리스트 마다 확인
+        if(numbers[0][0] === undefined){
+            for(var i = 0 ; i < numbers.length; i++){ // 각 알약의 예상 리스트 마다 확인
                 for(var j = 0 ; j < info_image.length; j++){
-                    if(info_image[j]['품목일련번호'].toString() === numbers[k][i].toString()){
-                        image[k][i] = info_image[j]['큰제품이미지']
-                        item_name[k][i] = info_image[j]['품목명']
-                        classified_name[k][i] = info_image[j]['분류명']
-                        company_name[k][i] = info_image[j]['업소명']
-                        classfication[k][i] = info_image[j]['전문일반구분']
+                    if(info_image[j]['품목일련번호'].toString() === numbers[i].toString()){
+                        image[i] = info_image[j]['큰제품이미지']
+                        item_name[i] = info_image[j]['품목명']
+                        classified_name[i] = info_image[j]['분류명']
+                        company_name[i] = info_image[j]['업소명']
+                        classfication[i] = info_image[j]['전문일반구분']
                     }
                 }
-                if(image[k][i] === undefined){
-                    image[k][i] = "데이터가 없습니다"
-                    item_name[k][i] = "데이터가 없습니다"
-                    classified_name[k][i] = "데이터가 없습니다"
-                    company_name[k][i] = "데이터가 없습니다"
-                    classfication[k][i] = "데이터가 없습니다"
+                if(image[i] === undefined){
+                    image[i] = "데이터가 없습니다"
+                    item_name[i] = "데이터가 없습니다"
+                    classified_name[i] = "데이터가 없습니다"
+                    company_name[i] = "데이터가 없습니다"
+                    classfication[i] = "데이터가 없습니다"
                 }
             }
-        } 
+        }
+        else{
+            for(var k = 0; k < numbers.length; k++){ // 알약이 몇개 찍혔는지
+                for(var i = 0 ; i < numbers[k].length; i++){ // 각 알약의 예상 리스트 마다 확인
+                    for(var j = 0 ; j < info_image.length; j++){
+                        if(info_image[j]['품목일련번호'].toString() === numbers[k][i].toString()){
+                            image[k][i] = info_image[j]['큰제품이미지']
+                            item_name[k][i] = info_image[j]['품목명']
+                            classified_name[k][i] = info_image[j]['분류명']
+                            company_name[k][i] = info_image[j]['업소명']
+                            classfication[k][i] = info_image[j]['전문일반구분']
+                        }
+                    }
+                    if(image[k][i] === undefined){
+                        image[k][i] = "데이터가 없습니다"
+                        item_name[k][i] = "데이터가 없습니다"
+                        classified_name[k][i] = "데이터가 없습니다"
+                        company_name[k][i] = "데이터가 없습니다"
+                        classfication[k][i] = "데이터가 없습니다"
+                    }
+                }
+            } 
+        }
+  
 
     })
     fs.readFile("./alyac.json", 'utf8', (error, data)=>{
@@ -131,36 +169,69 @@ async function getData(numbers){
         console.log("info file is successfully read")
         info = JSON.parse(data)
 
-       for(var k = 0; k < numbers.length; k++){ // 알약이 총 몇개가 찍혔는지 나타냄
-            for(var i = 0; i < numbers[k].length; i++){ // 알약 정보 관련
+        if(numbers[0][0] === undefined){
+            for(var i = 0; i < numbers.length; i++){ // 알약 정보 관련
                 for(var j = 0 ; j < info.length; j++){
-                    if(info[j].num === numbers[k][i].toString()){
-                        detail_info[k][i] = "true"
-                        name[k][i] = info[j].name
-                        company[k][i] = info[j].company
-                        effect[k][i] = info[j].effect
-                        use[k][i] = info[j].use
-                        caution[k][i] = info[j].caution
-                        pre_condition[k][i] = info[j].pre_condition
-                        caution_eat[k][i] = info[j].caution_eat
-                        caution_reaction[k][i] = info[j].caution_reaction
-                        keep[k][i] = info[j].keep
+                    if(info[j].num === numbers[i].toString()){
+                        detail_info[i] = "true"
+                        name[i] = info[j].name
+                        company[i] = info[j].company
+                        effect[i] = info[j].effect
+                        use[i] = info[j].use
+                        caution[i] = info[j].caution
+                        pre_condition[i] = info[j].pre_condition
+                        caution_eat[i] = info[j].caution_eat
+                        caution_reaction[i] = info[j].caution_reaction
+                        keep[i] = info[j].keep
                     }
                 }
-                if(name[k][i] === undefined){
-                    detail_info[k][i] = "false"
-                    name[k][i] = "데이터가 없습니다"
-                    company[k][i] = "데이터가 없습니다"
-                    effect[k][i] = "데이터가 없습니다"
-                    use[k][i] = "데이터가 없습니다"
-                    caution[k][i] = "데이터가 없습니다"
-                    pre_condition[k][i] = "데이터가 없습니다"
-                    caution_eat[k][i] = "데이터가 없습니다"
-                    caution_reaction[k][i] = "데이터가 없습니다"
-                    keep[k][i] = "데이터가 없습니다"
+                if(name[i] === undefined){
+                    detail_info[i] = "false"
+                    name[i] = "데이터가 없습니다"
+                    company[i] = "데이터가 없습니다"
+                    effect[i] = "데이터가 없습니다"
+                    use[i] = "데이터가 없습니다"
+                    caution[i] = "데이터가 없습니다"
+                    pre_condition[i] = "데이터가 없습니다"
+                    caution_eat[i] = "데이터가 없습니다"
+                    caution_reaction[i] = "데이터가 없습니다"
+                    keep[i] = "데이터가 없습니다"
                 }
             }
-       }
+        }
+        else{
+            for(var k = 0; k < numbers.length; k++){ // 알약이 총 몇개가 찍혔는지 나타냄
+                for(var i = 0; i < numbers[k].length; i++){ // 알약 정보 관련
+                    for(var j = 0 ; j < info.length; j++){
+                        if(info[j].num === numbers[k][i].toString()){
+                            detail_info[k][i] = "true"
+                            name[k][i] = info[j].name
+                            company[k][i] = info[j].company
+                            effect[k][i] = info[j].effect
+                            use[k][i] = info[j].use
+                            caution[k][i] = info[j].caution
+                            pre_condition[k][i] = info[j].pre_condition
+                            caution_eat[k][i] = info[j].caution_eat
+                            caution_reaction[k][i] = info[j].caution_reaction
+                            keep[k][i] = info[j].keep
+                        }
+                    }
+                    if(name[k][i] === undefined){
+                        detail_info[k][i] = "false"
+                        name[k][i] = "데이터가 없습니다"
+                        company[k][i] = "데이터가 없습니다"
+                        effect[k][i] = "데이터가 없습니다"
+                        use[k][i] = "데이터가 없습니다"
+                        caution[k][i] = "데이터가 없습니다"
+                        pre_condition[k][i] = "데이터가 없습니다"
+                        caution_eat[k][i] = "데이터가 없습니다"
+                        caution_reaction[k][i] = "데이터가 없습니다"
+                        keep[k][i] = "데이터가 없습니다"
+                    }
+                }
+        }
+        }
+ 
     })
     
     await delay()
@@ -168,97 +239,158 @@ async function getData(numbers){
         resolve([detail_info, name, company, effect, use, pre_condition, caution, caution_eat, caution_reaction, keep, image, item_name, classified_name, company_name, classfication])
     })
 }
-app.post('/output', (req, res)=>{
-    getData(sample_list2).then(function(data){
-        res.write('<!DOCTYPE html>' +
-        '<html><head><meta charset="utf-8"><title>알약 정보</title>' + 
-        '<style>' + 
-        `   table{ 
-                margin-top: 10px; 
-                margin-bottom: 10px;
-            }
-            td:nth-child(1){ 
-                width: 150px; 
-                padding-left: 10px; 
-                font-weight: bold; 
-                background-color: #ced4da;
-            }
-            td:nth-child(2){ 
-                width: 600px; 
-                padding: 5px 5px 5px 10px;
-            } 
-            table, td{
-                border-collapse: collapse;
-                border : 1px solid black;
-                margin-left : 10px;
-            } 
-            img{
-                width: 300px;
-                height: 180px;
-                margin: 0px 5px 0px 0px;
-            }   
-            div.container{
-                padding-left: 10px;
-            }
-            div.container > h2{
-                text-align: center;
-            }
-        ` + 
-        '</style></head><body>' + 
-        `</body></html>`
-        )
-        res.write(`<script> 
-            let check= 0;
-            function alyac_info(data, count1){
-                switch(count1){
-                    case 'info0': document.getElementById('info0').innerHTML = data; break;
-                    case 'info1': document.getElementById('info1').innerHTML = data; break;
-                    case 'info2': document.getElementById('info2').innerHTML = data; break;
-                    case 'info3': document.getElementById('info3').innerHTML = data; break;
-                    case 'info4': document.getElementById('info4').innerHTML = data; break;
-                }
-      
-                
-        
-            }
-            
-        
-        </script>`)
 
-        for(var k = 0; k < data[0].length; k++){ // 알약이 총 몇개가 찍혔는지 나타냄
-            res.write("<div class='container'><h2>" + (k+1) + "번째 알약과 유사한 알약을 찾아 클릭해주세요</h2>")
-            for(let i = 0 ; i < data[0][k].length; i++){
-                if(data[0][k][i] === "true"){
-                    text =  
-                    "<table border=1 >" + 
-                    "<tr><td>제품명</td><td>" + data[1][k][i] + "</td></tr>" +
-                    "<tr><td>제조회사</td><td>" + data[2][k][i] + "</td></tr>" +
-                    "<tr><td>효능</td><td>" + data[3][k][i] + "</td></tr>" +
-                    "<tr><td>섭취량 및 섭취방법</td><td>" + data[4][k][i] + "</td></tr>" +
-                    "<tr><td>복용 전 주의사항</td><td>" + data[5][k][i] + "</td></tr>" +
-                    "<tr><td>주의사항</td><td>" + data[6][k][i] + "</td></tr>" +
-                    "<tr><td>섭취시 주의사항</td><td>" + data[7][k][i] + "</td></tr>" +
-                    "<tr><td>부작용</td><td>" + data[8][k][i] + "</td></tr>" +
-                    "<tr><td>보관방법</td><td>" + data[9][k][i] + "</td></tr>" + "</table>"
-                }else{
-                    text =  
-                    "<table border=1 >" + 
-                    "<tr><td>제품명</td><td>" + data[11][k][i] + "</td></tr>" +
-                    "<tr><td>제조회사</td><td>" + data[13][k][i] + "</td></tr>" +
-                    "<tr><td>분류명</td><td>" + data[12][k][i] + "</td></tr>" +
-                    "<tr><td>전문일반구분</td><td>" + data[14][k][i] + "</td></tr>" + "</table>"
-                }
-                if(data[10][k][i] === "데이터가 없습니다") continue; //이미지는 없고 알약 번호만 있으면 출력 x
-                count = "info" + k
-
-                res.write('<img src = "' + data[10][k][i] +`" onclick='alyac_info("${text}", "${count}")'` + '>')
-                              
-            } 
-            res.write("</div>")  
-            res.write(`<div id= "${count}"></div>`)
-                        
-        }
+async function fileExist(file){
+    while(file.length < 2){
+        file = fs.readdirSync('./output')
+    }
+    return new Promise(function(resolve, reject){
+        resolve(file)
     })
+}
+app.post('/output', (req, res)=>{
+    fileExist(file).then( () =>{
+        fs.readFile('./output/serial_number.txt', 'utf-8', (err, data0)=>{
+            if(err) throw err;
+            data1 = JSON.parse(data0)
+            getData(data1).then(function(data){
+                res.write('<!DOCTYPE html>' +
+                '<html><head><meta charset="utf-8"><title>알약 정보</title>' + 
+                '<style>' + 
+                `   table{ 
+                        margin-top: 10px; 
+                        margin-bottom: 10px;
+                    }
+                    td:nth-child(1){ 
+                        width: 150px; 
+                        padding-left: 10px; 
+                        font-weight: bold; 
+                        background-color: #ced4da;
+                    }
+                    td:nth-child(2){ 
+                        width: 600px; 
+                        padding: 5px 5px 5px 10px;
+                    } 
+                    table, td{
+                        border-collapse: collapse;
+                        border : 1px solid black;
+                        margin-left : 10px;
+                    } 
+                    img{
+                        width: 300px;
+                        height: 180px;
+                        margin: 0px 5px 0px 0px;
+                    }   
+                    div.container{
+                        padding-left: 10px;
+                    }
+                    div.container > h2{
+                        text-align: center;
+                    }
+                ` + 
+                '</style></head><body>' + 
+                `</body></html>`
+                )
+                res.write(`<script> 
+                    let check= 0;
+                    function alyac_info(data, count1){
+                        switch(count1){
+                            case 'info0': document.getElementById('info0').innerHTML = data; break;
+                            case 'info1': document.getElementById('info1').innerHTML = data; break;
+                            case 'info2': document.getElementById('info2').innerHTML = data; break;
+                            case 'info3': document.getElementById('info3').innerHTML = data; break;
+                            case 'info4': document.getElementById('info4').innerHTML = data; break;
+                        }
+                
+                        
+                
+                    }
+                    
+                
+                </script>`)
+    
+                if(data[0][0][0].length === 1){
+                    res.write("<div class='container'><h2>" + "1번째 알약과 유사한 알약을 찾아 클릭해주세요</h2>")
+                    for(let i = 0 ; i < data[0].length; i++){
+                        if(data[0][i] === "true"){
+                            text =  
+                            "<table border=1 >" + 
+                            "<tr><td>제품명</td><td>" + data[1][i] + "</td></tr>" +
+                            "<tr><td>제조회사</td><td>" + data[2][i] + "</td></tr>" +
+                            "<tr><td>효능</td><td>" + data[3][i] + "</td></tr>" +
+                            "<tr><td>섭취량 및 섭취방법</td><td>" + data[4][i] + "</td></tr>" +
+                            "<tr><td>복용 전 주의사항</td><td>" + data[5][i] + "</td></tr>" +
+                            "<tr><td>주의사항</td><td>" + data[6][i] + "</td></tr>" +
+                            "<tr><td>섭취시 주의사항</td><td>" + data[7][i] + "</td></tr>" +
+                            "<tr><td>부작용</td><td>" + data[8][i] + "</td></tr>" +
+                            "<tr><td>보관방법</td><td>" + data[9][i] + "</td></tr>" + "</table>"
+                        }else{
+                            text =  
+                            "<table border=1 >" + 
+                            "<tr><td>제품명</td><td>" + data[11][i] + "</td></tr>" +
+                            "<tr><td>제조회사</td><td>" + data[13][i] + "</td></tr>" +
+                            "<tr><td>분류명</td><td>" + data[12][i] + "</td></tr>" +
+                            "<tr><td>전문일반구분</td><td>" + data[14][i] + "</td></tr>" + "</table>"
+                        }
+                        if(data[10][i] === "데이터가 없습니다") continue; //이미지는 없고 알약 번호만 있으면 출력 x
+                        count = "info0"
+        
+                        res.write('<img src = "' + data[10][i] +`" onclick='alyac_info("${text}", "${count}")'` + '>')
+                                        
+                    } 
+                    res.write("</div>")  
+                    res.write(`<div id= "${count}"></div>`)
+                                
+                }else{
+                    for(var k = 0; k < data[0].length; k++){ // 알약이 총 몇개가 찍혔는지 나타냄
+                    res.write("<div class='container'><h2>" + (k+1) + "번째 알약과 유사한 알약을 찾아 클릭해주세요</h2>")
+                    for(let i = 0 ; i < data[0][k].length; i++){
+                        if(data[0][k][i] === "true"){
+                            text =  
+                            "<table border=1 >" + 
+                            "<tr><td>제품명</td><td>" + data[1][k][i] + "</td></tr>" +
+                            "<tr><td>제조회사</td><td>" + data[2][k][i] + "</td></tr>" +
+                            "<tr><td>효능</td><td>" + data[3][k][i] + "</td></tr>" +
+                            "<tr><td>섭취량 및 섭취방법</td><td>" + data[4][k][i] + "</td></tr>" +
+                            "<tr><td>복용 전 주의사항</td><td>" + data[5][k][i] + "</td></tr>" +
+                            "<tr><td>주의사항</td><td>" + data[6][k][i] + "</td></tr>" +
+                            "<tr><td>섭취시 주의사항</td><td>" + data[7][k][i] + "</td></tr>" +
+                            "<tr><td>부작용</td><td>" + data[8][k][i] + "</td></tr>" +
+                            "<tr><td>보관방법</td><td>" + data[9][k][i] + "</td></tr>" + "</table>"
+                        }else{
+                            text =  
+                            "<table border=1 >" + 
+                            "<tr><td>제품명</td><td>" + data[11][k][i] + "</td></tr>" +
+                            "<tr><td>제조회사</td><td>" + data[13][k][i] + "</td></tr>" +
+                            "<tr><td>분류명</td><td>" + data[12][k][i] + "</td></tr>" +
+                            "<tr><td>전문일반구분</td><td>" + data[14][k][i] + "</td></tr>" + "</table>"
+                        }
+                        if(data[10][k][i] === "데이터가 없습니다") continue; //이미지는 없고 알약 번호만 있으면 출력 x
+                        count = "info" + k
+        
+                        res.write('<img src = "' + data[10][k][i] +`" onclick='alyac_info("${text}", "${count}")'` + '>')
+                                        
+                    } 
+                    res.write("</div>")  
+                    res.write(`<div id= "${count}"></div>`)
+                                
+                }
+                }    
+                
+            })
+        })
+
+
+    }
+
+
+
+    )
+    
+        // fs.statSync("./serial_number.txt")
+
+    
+    
 })
 
 
@@ -266,6 +398,5 @@ app.listen(port, () => {
     console.log(`http://localhost:${port}`)
     console.log("Web Server is running")
 })
-
 
 
