@@ -241,7 +241,7 @@ async function getData(numbers){
 }
 
 async function fileExist(file){
-    while(file.length < 2){
+    while(file.length < 1){ // 파일이 없으면 대기
         file = fs.readdirSync('./output')
     }
     return new Promise(function(resolve, reject){
