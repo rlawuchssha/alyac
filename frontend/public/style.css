@@ -105,7 +105,7 @@ div.upload {
 
 .remove-image:hover {
   background: #c13b2a;
-  color: #ffffff;
+  color: #040202;
   transition: all .2s ease;
   cursor: pointer;
 }
@@ -113,4 +113,23 @@ div.upload {
 .remove-image:active {
   border: 0;
   transition: all .2s ease;
+}
+
+#btn_search{
+  margin-top: 100px;
+  text-align: center;
+}
+
+#btn_result{
+  margin-top: 100px;
+  text-align: center;
+}
+
+#btn_search_text{
+  margin-top: 20px;
+  text-align: center;
+}
+
+#notification{
+  text-align: center;
 }

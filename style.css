@@ -114,3 +114,11 @@ div.upload {
   border: 0;
   transition: all .2s ease;
 }
+
+#btn_search{
+  text-align: center;
+}
+
+#btn_result{
+  text-align: center;
+}
