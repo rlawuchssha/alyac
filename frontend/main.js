@@ -16,7 +16,7 @@ var _storage = multer.diskStorage({
         cb(null, './upload')
     },
     filename: function (req, file, cb) {
-        cb(null, "이미지.jpg")
+        cb(null, "image.jpg")
         // cb(null, file.originalname)
     }
 })
@@ -250,6 +250,7 @@ async function fileExist(file){
 }
 app.post('/output', (req, res)=>{
     fileExist(file).then( () =>{
+        console.log("file이 동기적으로 읽힘")
         fs.readFile('./output/serial_number.txt', 'utf-8', (err, data0)=>{
             if(err) throw err;
             data1 = JSON.parse(data0)

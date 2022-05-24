@@ -117,8 +117,13 @@ div.upload {
 
 #btn_search{
   margin-top: 100px;
-  text-align: center;
+  
 }
+
+#btn_search:hover{
+  background-position: right center;
+}
+
 
 #btn_result{
   margin-top: 100px;

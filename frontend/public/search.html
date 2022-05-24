@@ -52,29 +52,27 @@
                         </div>
                 </div>
             </form>
-            <script>
-                function text(){
-                    let btn_search = document.getElementById("btn_search_text");
-                    
-                    btn_search_text.innerText = "알약을 검색중입니다. 결과보기 버튼을 눌러주세요"
-                }
-            </script>
-            <div id="notification">
-                <h3> 밝은 조명 아래에서 사진을 찍어주세요</h3>
-                <h3> 알약간의 간격은 5cm 이상 떨어뜨려주세요</h3>
-            </div>
-            <div id="btn_search">
-                <input class="font" type='submit' name='sub' value='알약 검색하기' onclick="text()"/>
-            </div>
-            <div id="btn_search_text"></div>
+        </div>
+        <script>
+            function text(){
+                let btn_search = document.getElementById("btn_search_text");
+                
+                btn_search.innerText = "알약을 검색중입니다. 결과보기 버튼을 눌러주세요"
+            }
+        </script>
+        <div id="notification">
+            <h3> 밝은 조명 아래에서 사진을 찍어주세요</h3>
+            <h3> 알약간의 간격은 5cm 이상 떨어뜨려주세요</h3>
+        </div>
+        <div style="text-align: center;">
+            <input class="font"  id="btn_search" type='submit' name='sub' value='알약 검색하기' onclick="text()"/>
+        </div>
+        <div id="btn_search_text"></div>
 
-            <div class="font" id="btn_result">
-                <form action="/output" method="post">
-
-                    <input class="font" type="submit" value="검색 결과 보기">
-                </form>
-            </div>
-            
+        <div class="font" id="btn_result">
+            <form action="/output" method="post">
+                <input class="font" type="submit" value="검색 결과 보기">
+            </form>
         </div>
         
 
