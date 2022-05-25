@@ -259,8 +259,11 @@ app.post('/output', (req, res)=>{
                 '<html><head><meta charset="utf-8"><title>알약 정보</title>' + 
                 '<style>' + 
                 `   table{ 
+                        margin-left: 9%;
                         margin-top: 10px; 
                         margin-bottom: 10px;
+                        border-collapse: collapse;
+                        border : 1px solid black;
                     }
                     td:nth-child(1){ 
                         width: 150px; 
@@ -272,26 +275,40 @@ app.post('/output', (req, res)=>{
                         width: 600px; 
                         padding: 5px 5px 5px 10px;
                     } 
-                    table, td{
+                    td{
                         border-collapse: collapse;
                         border : 1px solid black;
                         margin-left : 10px;
                     } 
                     img{
+                        display: block;
                         width: 300px;
                         height: 180px;
-                        margin: 0px 5px 0px 0px;
+                        margin: 5px 5px 5px 5px;
                     }   
                     div.container{
+                        
+                        margin-left: 8%;
+                        overflow: hidden;
                         padding-left: 10px;
                     }
-                    div.container > h2{
+                    article{
+                        float: left;
+                    }
+                    .head{
                         text-align: center;
+                    }
+                    #btn_container{
+                        position: absolute;
+                        top: 0;
+                        right: 0;
                     }
                 ` + 
                 '</style></head><body>' + 
                 `</body></html>`
                 )
+                res.write(`        
+                    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>`)
                 res.write(`<script> 
                     let check= 0;
                     function alyac_info(data, count1){
@@ -302,20 +319,53 @@ app.post('/output', (req, res)=>{
                             case 'info3': document.getElementById('info3').innerHTML = data; break;
                             case 'info4': document.getElementById('info4').innerHTML = data; break;
                         }
-                
-                        
-                
                     }
-                    
-                
                 </script>`)
-    
+                res.write(`
+		            <script>
+                        let basicFont = 15;
+                        let class_font = document.getElementsByClassName("font");
+
+                        function smaller(){    
+                            basicFont -= 2;
+                            if(basicFont < 10){
+                                basicFont = 10;
+                            }
+                            for(let i=0; i < class_font.length; i++){
+                                class_font[i].style.fontSize = basicFont + "px";
+                            }
+                        }
+                        function bigger(){
+                            basicFont += 3;
+                            if(basicFont > 46){
+                                basicFont = 45;
+                            }
+                            for(let i=0; i < class_font.length; i++){
+                                class_font[i].style.fontSize = basicFont + "px";
+                            }
+                        }
+                        function origin(){
+                            basicFont = 15;
+                            for(let i=0; i < class_font.length; i++){
+                                class_font[i].style.fontSize = basicFont + "px";
+                            }
+                        }
+                    </script>   
+                
+                
+                `)    
+                res.write(`       <div id="btn_container" >
+                <button class="zoomOut" onclick="smaller()"><span class="font">글씨 작게</span></button>
+                <button class="origin" onclick="origin()"><span class="font">초기화</span></button>
+                <button class="zoomIn" onclick="bigger()"><span class="font">글씨 크게</span></button>
+            </div>`)
                 if(data[0][0][0].length === 1){
-                    res.write("<div class='container'><h2>" + "1번째 알약과 유사한 알약을 찾아 클릭해주세요</h2>")
+                    res.write("<div class='head'><h2>" + "1번째 알약과 유사한 알약을 찾아 클릭해주세요</h2></div>")
+                    res.write("<div class='container'>")
                     for(let i = 0 ; i < data[0].length; i++){
                         if(data[0][i] === "true"){
                             text =  
-                            "<table border=1 >" + 
+                            "<table class=font border=1 >" + 
                             "<tr><td>제품명</td><td>" + data[1][i] + "</td></tr>" +
                             "<tr><td>제조회사</td><td>" + data[2][i] + "</td></tr>" +
                             "<tr><td>효능</td><td>" + data[3][i] + "</td></tr>" +
@@ -324,19 +374,21 @@ app.post('/output', (req, res)=>{
                             "<tr><td>주의사항</td><td>" + data[6][i] + "</td></tr>" +
                             "<tr><td>섭취시 주의사항</td><td>" + data[7][i] + "</td></tr>" +
                             "<tr><td>부작용</td><td>" + data[8][i] + "</td></tr>" +
-                            "<tr><td>보관방법</td><td>" + data[9][i] + "</td></tr>" + "</table>"
+                            "<tr><td>보관방법</td><td>" + data[9][i] + "</td></tr>" + "</table>" 
+                            
                         }else{
                             text =  
-                            "<table border=1 >" + 
+                            "<table class=font border=1 >" + 
                             "<tr><td>제품명</td><td>" + data[11][i] + "</td></tr>" +
                             "<tr><td>제조회사</td><td>" + data[13][i] + "</td></tr>" +
                             "<tr><td>분류명</td><td>" + data[12][i] + "</td></tr>" +
                             "<tr><td>전문일반구분</td><td>" + data[14][i] + "</td></tr>" + "</table>"
+                            
                         }
                         if(data[10][i] === "데이터가 없습니다") continue; //이미지는 없고 알약 번호만 있으면 출력 x
                         count = "info0"
         
-                        res.write('<img src = "' + data[10][i] +`" onclick='alyac_info("${text}", "${count}")'` + '>')
+                        res.write('<article><img src = "' + data[10][i] +`" onclick='alyac_info("${text}", "${count}")'` + '></article>')
                                         
                     } 
                     res.write("</div>")  
@@ -344,12 +396,13 @@ app.post('/output', (req, res)=>{
                                 
                 }else{
                     for(var k = 0; k < data[0].length; k++){ // 알약이 총 몇개가 찍혔는지 나타냄
-                    res.write("<div class='container'><h2>" + (k+1) + "번째 알약과 유사한 알약을 찾아 클릭해주세요</h2>")
+                    res.write("<div class='head'><h2>" + (k+1) + "번째 알약과 유사한 알약을 찾아 클릭해주세요</h2></div>")
+                    res.write("<div class='container'>")
                     for(let i = 0 ; i < data[0][k].length; i++){
                         if(data[0][k][i] === "true"){
                             text =  
-                            "<table border=1 >" + 
-                            "<tr><td>제품명</td><td>" + data[1][k][i] + "</td></tr>" +
+                            "<table class=font border=1 >" + 
+                            "<tr ><td>제품명</td><td>" + data[1][k][i] + "</td></tr>" +
                             "<tr><td>제조회사</td><td>" + data[2][k][i] + "</td></tr>" +
                             "<tr><td>효능</td><td>" + data[3][k][i] + "</td></tr>" +
                             "<tr><td>섭취량 및 섭취방법</td><td>" + data[4][k][i] + "</td></tr>" +
@@ -358,40 +411,32 @@ app.post('/output', (req, res)=>{
                             "<tr><td>섭취시 주의사항</td><td>" + data[7][k][i] + "</td></tr>" +
                             "<tr><td>부작용</td><td>" + data[8][k][i] + "</td></tr>" +
                             "<tr><td>보관방법</td><td>" + data[9][k][i] + "</td></tr>" + "</table>"
+                            
                         }else{
                             text =  
-                            "<table border=1 >" + 
+                            "<table class=font border=1 >" + 
                             "<tr><td>제품명</td><td>" + data[11][k][i] + "</td></tr>" +
                             "<tr><td>제조회사</td><td>" + data[13][k][i] + "</td></tr>" +
                             "<tr><td>분류명</td><td>" + data[12][k][i] + "</td></tr>" +
                             "<tr><td>전문일반구분</td><td>" + data[14][k][i] + "</td></tr>" + "</table>"
+
+                           
                         }
                         if(data[10][k][i] === "데이터가 없습니다") continue; //이미지는 없고 알약 번호만 있으면 출력 x
                         count = "info" + k
         
-                        res.write('<img src = "' + data[10][k][i] +`" onclick='alyac_info("${text}", "${count}")'` + '>')
+                        res.write('<article><img src = "' + data[10][k][i] +`" onclick='alyac_info("${text}", "${count}")'` + '></article>')
                                         
                     } 
                     res.write("</div>")  
                     res.write(`<div id= "${count}"></div>`)
-                                
                 }
                 }    
                 
             })
         })
-
-
     }
-
-
-
-    )
-    
-        // fs.statSync("./serial_number.txt")
-
-    
-    
+    )   
 })
 
 
