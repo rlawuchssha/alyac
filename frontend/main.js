@@ -257,8 +257,21 @@ app.post('/output', (req, res)=>{
             getData(data1).then(function(data){
                 res.write('<!DOCTYPE html>' +
                 '<html><head><meta charset="utf-8"><title>알약 정보</title>' + 
+                `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+                `+
                 '<style>' + 
-                `   table{ 
+                `   
+                    .material-symbols-outlined {
+                        font-variation-settings:
+                        'FILL' 0,
+                        'wght' 400,
+                        'GRAD' 0,
+                        'opsz' 48
+                    }
+                
+                
+                    table{ 
                         margin-left: 9%;
                         margin-top: 10px; 
                         margin-bottom: 10px;
@@ -299,9 +312,9 @@ app.post('/output', (req, res)=>{
                         text-align: center;
                     }
                     #btn_container{
-                        position: absolute;
-                        top: 0;
-                        right: 0;
+                        position: fixed;
+                        top: 25px;
+                        right: 25px;
                     }
                 ` + 
                 '</style></head><body>' + 
@@ -336,9 +349,9 @@ app.post('/output', (req, res)=>{
                             }
                         }
                         function bigger(){
-                            basicFont += 3;
-                            if(basicFont > 46){
-                                basicFont = 45;
+                            basicFont += 5;
+                            if(basicFont > 41){
+                                basicFont = 40;
                             }
                             for(let i=0; i < class_font.length; i++){
                                 class_font[i].style.fontSize = basicFont + "px";
@@ -354,10 +367,10 @@ app.post('/output', (req, res)=>{
                 
                 
                 `)    
-                res.write(`       <div id="btn_container" >
-                <button class="zoomOut" onclick="smaller()"><span class="font">글씨 작게</span></button>
-                <button class="origin" onclick="origin()"><span class="font">초기화</span></button>
-                <button class="zoomIn" onclick="bigger()"><span class="font">글씨 크게</span></button>
+                res.write(`<div id="btn_container"> 
+                <button class="zoomOut" onclick="smaller()"><span class="material-symbols-outlined">remove</span></button>
+                <button class="origin" onclick="origin()"><span class="material-symbols-outlined">autorenew</span></button>
+                <button class="zoomIn" onclick="bigger()"><span class="material-symbols-outlined">add</span></button>
             </div>`)
                 if(data[0][0][0].length === 1){
                     res.write("<div class='head'><h2>" + "1번째 알약과 유사한 알약을 찾아 클릭해주세요</h2></div>")

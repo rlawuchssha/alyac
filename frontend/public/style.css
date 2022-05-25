@@ -116,7 +116,7 @@ div.upload {
 }
 
 #btn_search{
-  margin-top: 100px;
+  margin-top: 25px;
   
 }
 
@@ -126,13 +126,15 @@ div.upload {
 
 
 #btn_result{
-  margin-top: 100px;
-  text-align: center;
+  width: 600px;
+  margin: 0 auto;
+  
 }
 
 #btn_search_text{
-  margin-top: 20px;
+  margin-left : 10px;
   text-align: center;
+  display: inline-block;
 }
 
 #notification{

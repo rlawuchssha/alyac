@@ -62,8 +62,8 @@
                         let uploaded_image = document.getElementById("uploaded-image");
                         let btn_search = document.getElementById("btn_search_text");
                         
-                        if(uploaded_image.src === "http://localhost:3000/search.html#" ){
-                            btn_search.innerText = "사진이 업로드 되지 않았습니다. 사진을 업로드 해주세요";
+                        if((uploaded_image.src === "http://localhost:3000/search.html#")){
+                            btn_search.innerText = "사진이 업로드 되지 않았습니다. 사진을 업로드 해주세요!";
                         }
                         else{
                             btn_search.innerText = "알약을 검색중입니다. 결과보기 버튼을 눌러주세요";
@@ -72,15 +72,14 @@
                         
                     }
                 </script>
-                <div style="text-align: center;">
+                <div style="display: inline-block">
                     <input class="font"  id="btn_search" type='submit' name='sub' value='알약 검색하기' onclick="text()"/>
                 </div>
+                <div id="btn_search_text"></div>
             </form>
         </div>
 
-
-
-        <div id="btn_search_text"></div>
+        
 
         <div class="font" id="btn_result">
             <form action="/output" method="post">
@@ -113,6 +112,7 @@
                 $('.file-upload-input').replaceWith($('.file-upload-input').clone());
                 $('.file-upload-content').hide();
                 $('.image-upload-wrap').show();
+                document.getElementById("uploaded-image").src = "http://localhost:3000/search.html#";
             }
             $('.image-upload-wrap').bind('dragover', function () {
                 $('.image-upload-wrap').addClass('image-dropping');
