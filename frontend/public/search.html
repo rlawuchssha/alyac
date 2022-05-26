@@ -4,11 +4,14 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
         <title>검색하기</title>
     </head>
 
     <body>
-		<div class="font" style="text-align: center">
+		<div class="font" style="text-align: center; margin-top: 40px; margin-bottom: 10px;">
 			<h2>알약 사진을 업로드해주세요 </h2>
 		</div>
         <script
@@ -37,8 +40,8 @@
                         accept="image/*"
                     />
                     <div class="drag-text">
-                        <div class="font">
-                            <h3>파일을 끌어다 놓거나 이미지를 선택해주세요</h3>
+                        <div class="font" style="position:relative; top: 85px;">
+                            <span>파일을 끌어다 놓거나 이미지를 선택해주세요</span>
                         </div>
                     </div>
                 </div>
@@ -66,14 +69,20 @@
                             btn_search.innerText = "사진이 업로드 되지 않았습니다. 사진을 업로드 해주세요!";
                         }
                         else{
-                            btn_search.innerText = "알약을 검색중입니다. 결과보기 버튼을 눌러주세요";
-                        }
-                        
-                        
+                            btn_search.innerText = "사진이 업로드 되었습니다. 알약 검색하기 버튼을 눌러주세요!";
+                        }       
                     }
+
+                    function text2(){
+
+                        let btn_result = document.getElementById("btn_result_text");
+                        
+                        btn_result.innerText = "알약을 검색중입니다. 잠시만 기다려주세요";       
+                    }
+
                 </script>
                 <div style="display: inline-block">
-                    <input class="font"  id="btn_search" type='submit' name='sub' value='알약 검색하기' onclick="text()"/>
+                    <input class="font"  id="btn_search" type='submit' name='sub' value='사진 업로드하기' onclick="text()"/>
                 </div>
                 <div id="btn_search_text"></div>
             </form>
@@ -81,10 +90,11 @@
 
         
 
-        <div class="font" id="btn_result">
-            <form action="/output" method="post">
-                <input class="font" type="submit" value="검색 결과 보기">
+        <div class="font" id="btn_result_wrap">
+            <form action="/output" method="post" style="display: inline-block;">
+                <input class="font" id="btn_result" type="submit" value="알약 검색하기" onclick="text2()"/>
             </form>
+            <div id="btn_result_text"></div>
         </div>
         
 

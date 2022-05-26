@@ -258,10 +258,17 @@ app.post('/output', (req, res)=>{
                 res.write('<!DOCTYPE html>' +
                 '<html><head><meta charset="utf-8"><title>알약 정보</title>' + 
                 `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
+                 <link rel="preconnect" href="https://fonts.googleapis.com">
+                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
                 `+
                 '<style>' + 
                 `   
+                    body{
+                        padding-top: 10px;
+                        font-family: 'Noto Sans KR', sans-serif;
+                    }
+
                     .material-symbols-outlined {
                         font-variation-settings:
                         'FILL' 0,
@@ -279,14 +286,15 @@ app.post('/output', (req, res)=>{
                         border : 1px solid black;
                     }
                     td:nth-child(1){ 
-                        width: 150px; 
+                        width: 200px; 
                         padding-left: 10px; 
                         font-weight: bold; 
+                        text-align: center;
                         background-color: #ced4da;
                     }
                     td:nth-child(2){ 
-                        width: 600px; 
-                        padding: 5px 5px 5px 10px;
+                        width: 1000px; 
+                        padding: 5px 5px 5px 20px;
                     } 
                     td{
                         border-collapse: collapse;
@@ -300,7 +308,8 @@ app.post('/output', (req, res)=>{
                         margin: 5px 5px 5px 5px;
                     }   
                     div.container{
-                        
+                        margin-top: 30px;
+                        margin-bottom: 25px;
                         margin-left: 8%;
                         overflow: hidden;
                         padding-left: 10px;
@@ -308,14 +317,15 @@ app.post('/output', (req, res)=>{
                     article{
                         float: left;
                     }
-                    .head{
+                    div.head{
                         text-align: center;
                     }
                     #btn_container{
                         position: fixed;
                         top: 25px;
-                        right: 25px;
+                        right: 15px;
                     }
+
                 ` + 
                 '</style></head><body>' + 
                 `</body></html>`
@@ -350,8 +360,8 @@ app.post('/output', (req, res)=>{
                         }
                         function bigger(){
                             basicFont += 5;
-                            if(basicFont > 41){
-                                basicFont = 40;
+                            if(basicFont > 31){
+                                basicFont = 30;
                             }
                             for(let i=0; i < class_font.length; i++){
                                 class_font[i].style.fontSize = basicFont + "px";
