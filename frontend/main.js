@@ -253,7 +253,7 @@ app.post('/output', (req, res)=>{
         console.log("file이 동기적으로 읽힘")
         fs.readFile('./output/serial_number.txt', 'utf-8', (err, data0)=>{
             if(err) throw err;
-            data1 = JSON.parse(data0)
+            let data1 = JSON.parse(data0)
             getData(data1).then(function(data){
                 res.write('<!DOCTYPE html>' +
                 '<html><head><meta charset="utf-8"><title>알약 정보</title>' + 
@@ -267,6 +267,7 @@ app.post('/output', (req, res)=>{
                     body{
                         padding-top: 10px;
                         font-family: 'Noto Sans KR', sans-serif;
+                        margin-bottom: 500px;
                     }
 
                     .material-symbols-outlined {

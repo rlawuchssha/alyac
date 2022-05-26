@@ -121,6 +121,24 @@ div.upload {
 }
 
 #btn_search{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 1em;
+  width: 130px;
+  height: 40px;
+  margin-top: 10px;
+  color: #fff;
+  background: #1FB264;
+  border: none;
+  
+  border-radius: 5px;
+  border-bottom: 4px solid #15824B;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: inline-block;
+}
+/* #btn_search{
   font-size: 1em;
   margin-top: 25px;
   font-family: 'Noto Sans KR', sans-serif;
@@ -147,7 +165,7 @@ div.upload {
   padding: 0;
   border: none;
   
-}
+} */
 
 
 #btn_search:hover{
@@ -187,7 +205,7 @@ div.upload {
   background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
   padding: 0;
   border: none;
-}
+} 
 
 #btn_search_text{
   width: 80%;
